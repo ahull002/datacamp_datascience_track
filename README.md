@@ -8,7 +8,7 @@
 
 ## List of Courses
 
-  - [Intro to Python for Data Science](https://github.com/AmoDinho/datacamp-python-data-science-track/tree/master/Intro%20to%20Python%20for%20Data%20Science)
+  - [Intro to Python for Data Science](https://github.com/ahull002/datacamp_datascience_track/tree/master/Intro%20to%20Python%20for%20Data%20Science)
   - [Intermediate Python for Data Science](https://github.com/AmoDinho/datacamp-python-data-science-track/tree/master/Intermediate%20Python%20for%20Data%20Science)
   - [Python Data Science Toolbox (Part 1)](https://github.com/AmoDinho/datacamp-python-data-science-track/tree/master/Python%20Data%20Science%20Toolbox%20pt1)
   - [Python Data Science Toolbox (Part 2)](https://github.com/AmoDinho/datacamp-python-data-science-track/tree/master/Python%20Data%20Science%20Toolbox%20pt2)
