@@ -19,6 +19,8 @@ plt.show()
 
 
 #----------------------------------------------------------------------------------#
+"""While bee swarm plots are useful, we found that ECDFs are often even better when doing EDA. 
+Plot the ECDFs for the 1975 and 2012 beak depth measurements on the same plot."""
 
 #ECDFs of beak depths
 # Compute ECDFs
@@ -42,7 +44,30 @@ plt.show()
 
 #----------------------------------------------------------------------------------#
 
-#Parameter estimates of beak depths
+"""Parameter estimates of beak depths
+Estimate the difference of the mean beak depth of the G. scandens samples from 1975 and 
+2012 and report a 95% confidence interval."""
+
+__________________________________________________________________________
+#Note: 
+#Function1: bootstrap_replicate_1d
+def bootstrap_replicate_1d(data, func):
+    return func(np.random.choice(data, size=len(data)))
+
+#Function2: 
+def draw_bs_reps(data, func, size=1):
+    """Draw bootstrap replicates."""
+
+    # Initialize array of replicates: bs_replicates
+    bs_replicates = np.empty(size)
+
+    # Generate replicates
+    for i in range(size):
+        bs_replicates[i] = bootstrap_replicate_1d(data, func)
+
+    return bs_replicates  
+  
+__________________________________________________________________________
 # Compute the difference of the sample means: mean_diff
 mean_diff = np.mean(bd_2012) - np.mean(bd_1975)
 
