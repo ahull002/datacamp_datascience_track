@@ -54,7 +54,7 @@ __________________________________________________________________________
 def bootstrap_replicate_1d(data, func):
     return func(np.random.choice(data, size=len(data)))
 
-#Function2: 
+#Function2: draw_bs_reps
 def draw_bs_reps(data, func, size=1):
     """Draw bootstrap replicates."""
 
@@ -66,7 +66,49 @@ def draw_bs_reps(data, func, size=1):
         bs_replicates[i] = bootstrap_replicate_1d(data, func)
 
     return bs_replicates  
-  
+
+#Function3
+#Note Function: draw_bs_pairs_linreg
+def draw_bs_pairs_linreg(x, y, size=1):
+    """Perform pairs bootstrap for linear regression."""
+
+    # Set up array of indices to sample from: inds
+    inds = np.arange(len(x))
+
+    # Initialize replicates: bs_slope_reps, bs_intercept_reps
+    bs_slope_reps = np.empty(size)
+    bs_intercept_reps = np.empty(size)
+
+    # Generate replicates
+    for i in range(size):
+        bs_inds = np.random.choice(inds, size=len(inds))
+        bs_x, bs_y = x[bs_inds], y[bs_inds]
+        bs_slope_reps[i], bs_intercept_reps[i] = np.polyfit(bs_x, bs_y, 1)
+
+    return bs_slope_reps, bs_intercept_reps
+
+#Function4
+#Note Function: draw bs_pairs
+"""Your task in this exercise is to make a new function with call signature draw_bs_pairs(x, y, func, size=1) 
+that performs pairs bootstrap and computes a single statistic on pairs samples defined. The statistic of interest 
+is computed by calling func(bs_x, bs_y). In the next exercise, you will use pearson_r for func."""
+
+def draw_bs_pairs(x, y, func, size=1):
+    """Perform pairs bootstrap for single statistic."""
+
+    # Set up array of indices to sample from: inds
+    inds = np.arange(len(x))
+
+    # Initialize replicates: bs_replicates
+    bs_replicates = np.empty(size)
+
+    # Generate replicates
+    for i in range(size):
+        bs_inds = np.random.choice(inds, len(inds))
+        bs_x, bs_y = x[bs_inds], y[bs_inds]
+        bs_replicates[i] = func(bs_x, bs_y)
+
+    return bs_replicates  
 __________________________________________________________________________
 # Compute the difference of the sample means: mean_diff
 mean_diff = np.mean(bd_2012) - np.mean(bd_1975)
@@ -108,6 +150,11 @@ p = np.sum(bs_diff_replicates >= mean_diff) / len(bs_diff_replicates)
 # Print p-value
 print('p =', p)
 
+""" We get a p-value of 0.0034, which suggests that there is a statistically significant difference. 
+But remember: it is very important to know how different they are! In the previous exercise, you got a 
+difference of 0.2 mm between the means. You should combine this with the statistical significance. 
+Changing by 0.2 mm in 37 years is substantial by evolutionary standards. If it kept changing at that rate, 
+the beak depth would double in only 400 years. """
 
 #----------------------------------------------------------------------------------#
 #EDA of beak length and depth
@@ -215,7 +262,25 @@ print('2012: mean ratio =', mean_ratio_2012,
 
 
 #----------------------------------------------------------------------------------#
+#EDA of beak length and depth
+# Make scatter plot of 1975 data
+_ = plt.scatter(bl_1975, bd_1975, marker='.',
+             linestyle='None', color='blue', alpha=0.5)
 
+# Make scatter plot of 2012 data
+_ = plt.scatter(bl_2012, bd_2012, marker='.',
+            linestyle='None', color='red', alpha=0.5)
+
+# Label axes and make legend
+_ = plt.xlabel('beak length (mm)')
+_ = plt.ylabel('beak depth (mm)')
+_ = plt.legend(('1975', '2012'), loc='upper left')
+
+# Show the plot
+plt.show()
+
+
+#----------------------------------------------------------------------------------#
 #EDA of heritability
 
 # Make scatter plots
@@ -237,6 +302,7 @@ _ = plt.legend(('G. fortis', 'G. scandens'), loc='lower right')
 # Show plot
 plt.show()
 
+
 #----------------------------------------------------------------------------------#
 #Correlation of offspring and parental data
 
@@ -256,6 +322,7 @@ def draw_bs_pairs(x, y, func, size=1):
         bs_replicates[i] = func(bs_x, bs_y)
 
     return bs_replicates
+
 
 #----------------------------------------------------------------------------------#
 ## Pearson correlation of offspring and parental data
@@ -303,6 +370,7 @@ conf_int_fortis = np.percentile(replicates_fortis, [2.5, 97.5])
 # Print results
 print('G. scandens:', heritability_scandens, conf_int_scandens)
 print('G. fortis:', heritability_fortis, conf_int_fortis)
+
 
 #----------------------------------------------------------------------------------#
 #Is beak depth heritable at all in *G. scandens*?
