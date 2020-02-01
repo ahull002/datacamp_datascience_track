@@ -134,7 +134,9 @@ print(pca_features.shape)
 
 
 #------------------------------------------------------------------------------------------------------------#
-#A tf-idf word-frequency array
+#term frequency (tf) and inverse document frequency (idf)
+"For this, use the TfidfVectorizer from sklearn. It transforms a list of documents into a word frequency array, which it outputs as a csr_matrix. It has fit() and transform() methods like other sklearn objects."
+
 # Import TfidfVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
