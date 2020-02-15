@@ -10,16 +10,16 @@ def nodes_with_m_nbrs(G, m):
     Returns all nodes in graph G that have m neighbors.
     """
     nodes = set()
-    
+
     # Iterate over all nodes in G
     for n in G.nodes():
-    
+
         # Check if the number of neighbors of n matches m
-        if len(G.neighbors(n)) == m:
-        
+        if len(list(G.neighbors(n))) == m:
+
             # Add the node n to the set
             nodes.add(n)
-            
+
     # Return the nodes with m neighbors
     return nodes
 
